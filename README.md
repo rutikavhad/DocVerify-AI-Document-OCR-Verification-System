@@ -1,6 +1,7 @@
-📄 DocVerify — AI Document OCR & Verification System
+
 
 <div align="center">
+📄 DocVerify — AI Document OCR & Verification System
 
 Secure Document OCR, Information Extraction & Verification Platform
 
