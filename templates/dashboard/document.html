@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}Document Details{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2>Document Details</h2>
+
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back
+
+        </a>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header">
+
+                    <h5>File Preview</h5>
+
+                </div>
+
+                <div class="card-body text-center">
+
+                    {% if document.file_type == ".pdf" %}
+
+                        <embed
+                            src="{{ document.file.url }}"
+                            type="application/pdf"
+                            width="100%"
+                            height="500px"
+                        >
+
+                    {% else %}
+
+                        <img
+                            src="{{ document.file.url }}"
+                            class="img-fluid rounded"
+                        >
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-header">
+
+                    <h5>Information</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <td>{{ document.id }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>File</th>
+
+                            <td>{{ document.original_filename }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Status</th>
+
+                            <td>
+
+                                <span class="badge bg-success">
+
+                                    {{ document.status }}
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Uploaded</th>
+
+                            <td>
+
+                                {{ document.created_at }}
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-header">
+
+                    <h5>OCR JSON</h5>
+
+                </div>
+
+                <div class="card-body">
+
+<pre>{{ document.ocr_result|pprint }}</pre>
+
+                </div>
+
+            </div>
+
+            <div class="card shadow-sm">
+
+                <div class="card-header">
+
+                    <h5>Extracted Text</h5>
+
+                </div>
+
+                <div class="card-body">
+
+<pre style="white-space:pre-wrap">{{ document.raw_text }}</pre>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

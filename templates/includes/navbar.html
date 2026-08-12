@@ -1,0 +1,93 @@
+<nav class="top-navbar">
+
+    <div class="left-nav">
+
+        <h4>AI Document Verification System</h4>
+
+    </div>
+
+    <div class="right-nav">
+
+        <div class="search-box">
+
+            <i class="bi bi-search"></i>
+
+            <input
+                type="text"
+                placeholder="Search documents..."
+            >
+
+        </div>
+
+        <button class="icon-btn">
+
+            <i class="bi bi-bell"></i>
+
+        </button>
+
+        <div class="user-dropdown dropdown">
+
+            <button
+                class="btn dropdown-toggle d-flex align-items-center"
+                data-bs-toggle="dropdown">
+
+                <img
+                    src="https://ui-avatars.com/api/?name={{ request.user.username }}&background=4f8cff&color=fff"
+                    class="avatar"
+                >
+
+                <span class="ms-2">
+
+                    {{ request.user.username }}
+
+                </span>
+
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end">
+
+                <li>
+
+                    <a class="dropdown-item" href="/profile">
+
+                        <i class="bi bi-person me-2"></i>
+
+                        Profile
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a class="dropdown-item" href="#">
+
+                        <i class="bi bi-gear me-2"></i>
+
+                        Settings
+
+                    </a>
+
+                </li>
+
+                <li><hr class="dropdown-divider"></li>
+
+                <li>
+
+                    <a class="dropdown-item text-danger" href="/logout">
+
+                        <i class="bi bi-box-arrow-right me-2"></i>
+
+                        Logout
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>

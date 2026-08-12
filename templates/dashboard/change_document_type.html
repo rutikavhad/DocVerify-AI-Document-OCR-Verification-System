@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}
+Change Document Type
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+
+        <h2 class="fw-bold">
+            Change Document Type
+        </h2>
+
+        <p class="text-muted">
+            Change the document type before verification.
+        </p>
+
+    </div>
+
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body">
+
+            <div class="mb-4">
+
+                <h5>
+                    {{ document.original_filename }}
+                </h5>
+
+                <small class="text-muted">
+
+                    {{ document.file_type|upper }}
+
+                </small>
+
+            </div>
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+
+                        Document Type
+
+                    </label>
+
+                    <select
+                        name="document_type"
+                        class="form-select"
+                        required
+                    >
+
+                        {% for value, label in document_types %}
+
+                            <option
+                                value="{{ value }}"
+                                {% if document.document_type == value %}
+                                    selected
+                                {% endif %}
+                            >
+
+                                {{ label }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+
+                    <i class="bi bi-save"></i>
+
+                    Save Document Type
+
+                </button>
+
+
+                <a
+                    href="{% url 'history' %}"
+                    class="btn btn-secondary"
+                >
+
+                    Cancel
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,491 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Page Title -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">My Profile</h2>
+
+            <p class="text-muted mb-0">
+                Manage your account information
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="row">
+
+        <!-- LEFT -->
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <img
+                        id="preview"
+                        src="{{ profile.avatar.url }}"
+                        class="rounded-circle border"
+                        width="170"
+                        height="170"
+                        style="object-fit:cover;"
+                    >
+
+                    <h4 class="mt-3">
+
+                        {{ request.user.first_name }}
+                        {{ request.user.last_name }}
+
+                    </h4>
+
+                    <p class="text-muted">
+
+                        @{{ request.user.username }}
+
+                    </p>
+
+                    <hr>
+
+                    <div class="row">
+
+                        <div class="col">
+
+                            <h4>
+
+                                {{ total_documents }}
+
+                            </h4>
+
+                            <small class="text-muted">
+
+                                Documents
+
+                            </small>
+
+                        </div>
+
+                        <div class="col">
+
+                            <h4>
+
+                                {{ request.user.date_joined|date:"Y" }}
+
+                            </h4>
+
+                            <small class="text-muted">
+
+                                Joined
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT -->
+        <div class="col-lg-8">
+
+            <!-- PROFILE -->
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Edit Profile
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form
+                        method="POST"
+                        enctype="multipart/form-data"
+                    >
+
+                        {% csrf_token %}
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label>
+
+                                    First Name
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="first_name"
+                                    value="{{ request.user.first_name }}"
+                                    class="form-control"
+                                >
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label>
+
+                                    Last Name
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="last_name"
+                                    value="{{ request.user.last_name }}"
+                                    class="form-control"
+                                >
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label>
+
+                                    Username
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="username"
+                                    value="{{ request.user.username }}"
+                                    class="form-control"
+                                >
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label>
+
+                                    Email
+
+                                </label>
+
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value="{{ request.user.email }}"
+                                    class="form-control"
+                                >
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label>
+
+                                    Phone
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="phone"
+                                    value="{{ profile.phone }}"
+                                    class="form-control"
+                                >
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label>
+
+                                    Profile Photo
+
+                                </label>
+
+                                <input
+                                    type="file"
+                                    name="avatar"
+                                    class="form-control"
+                                    onchange="previewImage(event)"
+                                >
+
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label>
+
+                                Joined
+
+                            </label>
+
+                            <input
+                                class="form-control"
+                                readonly
+                                value="{{ request.user.date_joined|date:'d M Y H:i' }}"
+                            >
+
+                        </div>
+
+                        <button
+                            class="btn btn-primary"
+                            type="submit"
+                        >
+
+                            <i class="bi bi-save"></i>
+
+                            Save Changes
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PASSWORD -->
+
+            <div class="card shadow-sm border-0 mt-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Change Password
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form
+                        method="POST"
+                        action="{% url 'change_password' %}"
+                    >
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+
+                            <label>
+
+                                Current Password
+
+                            </label>
+
+                            <input
+                                type="password"
+                                name="old_password"
+                                class="form-control"
+                            >
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label>
+
+                                New Password
+
+                            </label>
+
+                            <input
+                                type="password"
+                                name="new_password1"
+                                class="form-control"
+                            >
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label>
+
+                                Confirm Password
+
+                            </label>
+
+                            <input
+                                type="password"
+                                name="new_password2"
+                                class="form-control"
+                            >
+
+                        </div>
+
+                        <button
+                            class="btn btn-warning"
+                            type="submit"
+                        >
+
+                            <i class="bi bi-key"></i>
+
+                            Change Password
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RECENT DOCUMENTS -->
+
+            <div class="card shadow-sm border-0 mt-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Recent Documents
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>File</th>
+
+                                    <th>Status</th>
+
+                                    <th>Date</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for doc in recent_documents %}
+
+                                <tr>
+
+                                    <td>
+
+                                        {{ doc.original_filename }}
+
+                                    </td>
+
+                                    <td>
+
+                                        {% if doc.status == "COMPLETED" %}
+
+                                            <span class="badge bg-success">
+
+                                                Completed
+
+                                            </span>
+
+                                        {% elif doc.status == "PROCESSING" %}
+
+                                            <span class="badge bg-warning">
+
+                                                Processing
+
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge bg-danger">
+
+                                                Failed
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+
+                                        {{ doc.created_at|date:"d M Y H:i" }}
+
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+
+                                <tr>
+
+                                    <td colspan="3">
+
+                                        No Documents Uploaded
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function previewImage(event){
+
+    const img=document.getElementById("preview");
+
+    img.src=URL.createObjectURL(event.target.files[0]);
+
+}
+
+</script>
+
+{% endblock %}

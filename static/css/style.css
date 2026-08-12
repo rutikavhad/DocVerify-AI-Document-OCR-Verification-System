@@ -1,0 +1,225 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f5f7fb;
+}
+
+.wrapper{
+    display:flex;
+    min-height:100vh;
+}
+
+.main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+.content{
+    padding:25px;
+}
+
+.auth-page{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0d6efd,#6610f2);
+}
+
+/* Sidebar */
+
+.sidebar{
+    width:260px;
+    min-height:100vh;
+    background:#1f2937;
+    color:white;
+    display:flex;
+    flex-direction:column;
+    position:sticky;
+    top:0;
+}
+
+.logo{
+    padding:25px;
+    font-size:24px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.logo i{
+    color:#4f8cff;
+}
+
+.menu{
+    list-style:none;
+    padding:20px 0;
+    flex:1;
+}
+
+.menu li{
+    margin:5px 0;
+}
+
+.menu li a{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    color:#d1d5db;
+
+    text-decoration:none;
+
+    padding:14px 25px;
+
+    transition:.3s;
+}
+
+.menu li a:hover{
+
+    background:#374151;
+
+    color:white;
+
+    border-left:4px solid #4f8cff;
+}
+
+.logout{
+
+    border-top:1px solid rgba(255,255,255,.1);
+
+    padding:20px;
+}
+
+.logout a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:#ff7070;
+
+    text-decoration:none;
+
+    font-weight:500;
+}
+
+.logout a:hover{
+
+    color:white;
+}
+
+/* ===========================
+        NAVBAR
+=========================== */
+
+.top-navbar{
+
+    height:70px;
+
+    background:#fff;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 30px;
+
+    border-bottom:1px solid #e5e7eb;
+
+}
+
+.left-nav h4{
+
+    margin:0;
+
+    font-weight:600;
+
+}
+
+.right-nav{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+.search-box{
+
+    display:flex;
+
+    align-items:center;
+
+    background:#f3f4f6;
+
+    border-radius:8px;
+
+    padding:8px 15px;
+
+}
+
+.search-box input{
+
+    border:none;
+
+    background:transparent;
+
+    outline:none;
+
+    margin-left:10px;
+
+    width:250px;
+
+}
+
+.icon-btn{
+
+    border:none;
+
+    background:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+}
+
+.avatar{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+}
+
+.user-dropdown button{
+
+    border:none;
+
+    background:none;
+
+}
+
+.dropdown-menu{
+
+    min-width:220px;
+
+}

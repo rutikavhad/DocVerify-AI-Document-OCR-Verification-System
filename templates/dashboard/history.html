@@ -1,0 +1,434 @@
+{% extends "base.html" %}
+
+{% block title %}Document History{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+```
+<!-- =========================
+     HEADER
+========================== -->
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">
+            Document History
+        </h2>
+
+        <p class="text-muted mb-0">
+            View, verify and manage your uploaded documents.
+        </p>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <form
+        method="GET"
+        class="d-flex"
+    >
+
+        <input
+            type="text"
+            name="q"
+            class="form-control"
+            placeholder="Search document..."
+            value="{{ request.GET.q }}"
+        >
+
+        <button
+            type="submit"
+            class="btn btn-primary ms-2"
+        >
+
+            <i class="bi bi-search"></i>
+
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- =========================
+     DOCUMENT LIST
+========================== -->
+
+{% if documents %}
+
+    {% for doc in documents %}
+
+    <div class="card shadow-sm border-0 mb-3">
+
+        <div class="card-body">
+
+            <div class="row align-items-center">
+
+
+                <!-- =====================
+                     FILE ICON
+                ====================== -->
+
+                <div class="col-md-1 text-center">
+
+                    {% if doc.file_type == ".pdf" %}
+
+                        <i
+                            class="bi bi-file-earmark-pdf text-danger"
+                            style="font-size:50px;"
+                        ></i>
+
+                    {% elif doc.file_type == ".png" or doc.file_type == ".jpg" or doc.file_type == ".jpeg" %}
+
+                        <i
+                            class="bi bi-file-earmark-image text-primary"
+                            style="font-size:50px;"
+                        ></i>
+
+                    {% else %}
+
+                        <i
+                            class="bi bi-file-earmark text-secondary"
+                            style="font-size:50px;"
+                        ></i>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- =====================
+                     DOCUMENT INFORMATION
+                ====================== -->
+
+                <div class="col-md-5">
+
+                    <h5 class="mb-1">
+
+                        {{ doc.original_filename }}
+
+                    </h5>
+
+
+                    <!-- FILE INFO -->
+
+                    <small class="text-muted">
+
+                        {{ doc.file_type|upper }}
+
+                        &nbsp;•&nbsp;
+
+                        {{ doc.created_at|date:"d M Y H:i" }}
+
+                    </small>
+
+
+                    <!-- DOCUMENT TYPE -->
+
+                    <div class="mt-2">
+
+                        <span class="text-muted">
+                            Document Type:
+                        </span>
+
+                        <strong>
+
+                            {% if doc.document_type == "aadhaar" %}
+                                Aadhaar
+
+                            {% elif doc.document_type == "pan" %}
+                                PAN
+
+                            {% elif doc.document_type == "passport" %}
+                                Passport
+
+                            {% elif doc.document_type == "driving_license" %}
+                                Driving Licence
+
+                            {% elif doc.document_type == "voter_id" %}
+                                Voter ID
+
+                            {% elif doc.document_type == "atm" %}
+                                ATM Card
+
+                            {% elif doc.document_type == "invoice" %}
+                                Invoice
+
+                            {% elif doc.document_type == "receipt" %}
+                                Receipt
+
+                            {% else %}
+                                Other
+                            {% endif %}
+
+                        </strong>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div class="mt-2">
+
+                        {% if doc.status == "PENDING" %}
+
+                            <span class="badge bg-secondary">
+
+                                Pending
+
+                            </span>
+
+
+                        {% elif doc.status == "PROCESSING" %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                <i class="bi bi-hourglass-split"></i>
+
+                                Processing
+
+                            </span>
+
+
+                        {% elif doc.status == "COMPLETED" %}
+
+                            <span class="badge bg-primary">
+
+                                <i class="bi bi-file-earmark-check"></i>
+
+                                OCR Completed
+
+                            </span>
+
+
+                        {% elif doc.status == "VERIFYING" %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                <i class="bi bi-hourglass-split"></i>
+
+                                Verifying
+
+                            </span>
+
+
+                        {% elif doc.status == "VERIFIED" %}
+
+                            <span class="badge bg-success">
+
+                                <i class="bi bi-patch-check-fill"></i>
+
+                                Verified
+
+                            </span>
+
+
+                        {% elif doc.status == "NOT_VERIFIED" %}
+
+                            <span class="badge bg-danger">
+
+                                <i class="bi bi-x-circle-fill"></i>
+
+                                Not Verified
+
+                            </span>
+
+
+                        {% elif doc.status == "VERIFICATION_ERROR" %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                <i class="bi bi-exclamation-triangle-fill"></i>
+
+                                Verification Error
+
+                            </span>
+
+
+                        {% elif doc.status == "FAILED" %}
+
+                            <span class="badge bg-danger">
+
+                                <i class="bi bi-x-octagon-fill"></i>
+
+                                Processing Failed
+
+                            </span>
+
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- =====================
+                     ACTIONS
+                ====================== -->
+
+                <div class="col-md-6 text-end">
+
+
+                    <!-- VERIFY -->
+
+                    {% if doc.status == "COMPLETED" or doc.status == "NOT_VERIFIED" or doc.status == "VERIFICATION_ERROR" %}
+
+                        <form
+                            method="POST"
+                            action="{% url 'verify_document' doc.id %}"
+                            class="d-inline"
+                        >
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="btn btn-warning"
+                                onclick="return confirm('Verify this document?');"
+                            >
+
+                                <i class="bi bi-shield-check"></i>
+
+                                Verify
+
+                            </button>
+
+                        </form>
+
+                    {% endif %}
+
+
+                    <!-- VIEW -->
+
+                    <a
+                        href="{% url 'document_detail' doc.id %}"
+                        class="btn btn-primary"
+                    >
+
+                        <i class="bi bi-eye"></i>
+
+                        View
+
+                    </a>
+
+
+                    <!-- CHANGE TYPE -->
+
+                    <a
+                        href="{% url 'change_document_type' doc.id %}"
+                        class="btn btn-secondary"
+                    >
+
+                        <i class="bi bi-pencil"></i>
+
+                        Type
+
+                    </a>
+
+
+                    <!-- DOWNLOAD -->
+
+                    <a
+                        href="{{ doc.file.url }}"
+                        target="_blank"
+                        class="btn btn-success"
+                    >
+
+                        <i class="bi bi-download"></i>
+
+                        Download
+
+                    </a>
+
+
+                    <!-- DELETE -->
+
+                    <form
+                        method="POST"
+                        action="{% url 'document_delete' doc.id %}"
+                        class="d-inline"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn btn-danger"
+                            onclick="return confirm('Delete this document permanently?');"
+                        >
+
+                            <i class="bi bi-trash"></i>
+
+                            Delete
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+
+{% else %}
+
+
+    <!-- =========================
+         EMPTY STATE
+    ========================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body text-center py-5">
+
+            <i
+                class="bi bi-folder-x text-muted"
+                style="font-size:70px;"
+            ></i>
+
+            <h4 class="mt-3">
+
+                No Documents Found
+
+            </h4>
+
+            <p class="text-muted">
+
+                Upload your first document from the dashboard.
+
+            </p>
+
+            <a
+                href="{% url 'dashboard' %}"
+                class="btn btn-primary"
+            >
+
+                <i class="bi bi-cloud-arrow-up"></i>
+
+                Go to Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+{% endif %}
+```
+
+</div>
+
+{% endblock %}
