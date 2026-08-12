@@ -1,9 +1,7 @@
-
-
 <div align="center">
 <h1>📄 DocVerify — AI Document OCR & Verification System </h1>
 
-Secure Document OCR, Information Extraction & Verification Platform
+### Secure Document OCR, Information Extraction & Verification Platform
 
 <img src="https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white" />
 <img src="https://img.shields.io/badge/Django-5.2-green?logo=django&logoColor=white" />
@@ -13,106 +11,58 @@ Secure Document OCR, Information Extraction & Verification Platform
 <img src="https://img.shields.io/badge/PyMuPDF-PDF%20Processing-purple" />
 <img src="https://img.shields.io/badge/Bootstrap-UI-7952B3?logo=bootstrap&logoColor=white" />
 
-Document processing platform for PDF/image OCR, document-specific information extraction, and secure verification.
+**Document processing platform for PDF/image OCR, document-specific information extraction, and secure verification.**
 
 </div>
 
-📖 Overview
+---
 
-DocVerify is a Django-based document OCR and verification system for processing PDF and image documents and converting their contents into structured information.
+## 📖 Overview
+
+**DocVerify** is a Django-based document OCR and verification system for processing PDF and image documents and converting their contents into structured information.
 
 The platform supports:
 
-PDF/image upload
+1. PDF/image upload
+2. Document-type selection
+3. OCR extraction
+4. Document-specific information extraction
+5. Structured JSON storage
+6. Document verification
+7. Document-specific checker routing
+8. Local mock verification for development
+9. Field comparison and match scoring
+10. Safe `VERIFIED` / `NOT_VERIFIED` results
 
-Document-type selection
+The current verification layer uses a **local mock database** so the complete workflow can be tested without an external API. It is designed to be replaced later by authorized official organization APIs.
 
-OCR extraction
+---
 
-Document-specific information extraction
+## ✨ Features
 
-Structured JSON storage
+| Category | Features |
+|---|---|
+| 📄 Document Input | PDF, PNG, JPG, JPEG |
+| 🔎 OCR | OCR for images and scanned PDFs |
+| 🧠 Information Extraction | Document-specific field extraction |
+| 🪪 Document Types | Aadhaar, PAN, Passport, Driving Licence, Voter ID, ATM, Invoice, Receipt, Other |
+| 🧾 JSON Data | Structured extracted information |
+| 🔐 Verification | Document-specific verification pipeline |
+| 🧪 Mock API | Local verification database |
+| 📊 Comparison | Field matching and verification score |
+| 👤 Authentication | Login, registration, logout |
+| 👨‍💼 Profile | Profile editing and password management |
+| 🗂 History | Search, view, download, verify and delete |
+| ✏️ Document Management | Change document type |
+| 🖥 Dashboard | Processing and verification statistics |
+| 🔌 REST API | Django REST Framework endpoints |
+| 🗄 Database | PostgreSQL |
 
-Document verification
+---
 
-Document-specific checker routing
+## 🏗️ System Architecture
 
-Local mock verification for development
-
-Field comparison and match scoring
-
-Safe VERIFIED / NOT_VERIFIED results
-
-The current verification layer uses a local mock database so the complete workflow can be tested without an external API. It is designed to be replaced later by authorized official organization APIs.
-
-✨ Features
-
-Category
-
-Features
-
-📄 Document Input
-
-PDF, PNG, JPG, JPEG
-
-🔎 OCR
-
-OCR for images and scanned PDFs
-
-🧠 Information Extraction
-
-Document-specific field extraction
-
-🪪 Document Types
-
-Aadhaar, PAN, Passport, Driving Licence, Voter ID, ATM, Invoice, Receipt, Other
-
-🧾 JSON Data
-
-Structured extracted information
-
-🔐 Verification
-
-Document-specific verification pipeline
-
-🧪 Mock API
-
-Local verification database
-
-📊 Comparison
-
-Field matching and verification score
-
-👤 Authentication
-
-Login, registration, logout
-
-👨‍💼 Profile
-
-Profile editing and password management
-
-🗂 History
-
-Search, view, download, verify and delete
-
-✏️ Document Management
-
-Change document type
-
-🖥 Dashboard
-
-Processing and verification statistics
-
-🔌 REST API
-
-Django REST Framework endpoints
-
-🗄 Database
-
-PostgreSQL
-
-🏗️ System Architecture
-
+```mermaid
 graph TD
 
 User --> Dashboard
@@ -135,9 +85,13 @@ Comparator --> VerificationResult
 VerificationResult --> DocumentDatabase
 
 DocumentDatabase[(PostgreSQL)]
+```
 
-🔄 Document Processing Workflow
+---
 
+## 🔄 Document Processing Workflow
+
+```text
 PDF / Image
     ↓
 File Validation
@@ -151,18 +105,24 @@ Document-Specific Information Extractor
 Structured JSON
     ↓
 PostgreSQL
+```
 
 Example:
 
+```json
 {
     "document_type": "pan",
     "pan_number": "QFVPS0764H",
     "name": "SAMAD",
     "dob": "03/02/2004"
 }
+```
 
-🔐 Verification Workflow
+---
 
+## 🔐 Verification Workflow
+
+```text
 Stored OCR Text
        ↓
 Information Extractor
@@ -182,11 +142,13 @@ Comparator
 Match Score
        ↓
 VERIFIED / NOT_VERIFIED
+```
 
 The system is designed to return a safe verification result instead of exposing unnecessary sensitive API response data.
 
 Example:
 
+```json
 {
     "status": "VERIFIED",
     "score": 100,
@@ -194,24 +156,30 @@ Example:
     "matched_fields": 3,
     "compared_fields": 3
 }
+```
 
-🧠 Document-Specific Information Extraction
+---
+
+## 🧠 Document-Specific Information Extraction
 
 Different documents have different structures and verification fields.
 
 The extractor is therefore document-type aware.
 
-PAN
+### PAN
 
+```json
 {
     "document_type": "pan",
     "pan_number": "QFVPS0764H",
     "name": "SAMAD",
     "dob": "03/02/2004"
 }
+```
 
-Aadhaar
+### Aadhaar
 
+```json
 {
     "document_type": "aadhaar",
     "aadhaar_number": "123456789012",
@@ -219,15 +187,19 @@ Aadhaar
     "dob": "01/01/2000",
     "gender": "MALE"
 }
+```
 
 Additional document-specific extraction rules can be added as required.
 
-🧪 Local Mock Verification API
+---
 
-The current project uses a MockVerificationRecord database model to simulate an external verification API.
+## 🧪 Local Mock Verification API
+
+The current project uses a `MockVerificationRecord` database model to simulate an external verification API.
 
 Example:
 
+```text
 Document Type:
 PAN
 
@@ -240,21 +212,27 @@ Data:
     "name": "SAMAD",
     "dob": "03/02/2004"
 }
+```
 
 This allows the entire verification pipeline to be tested without a real external API.
 
-Production transition
+### Production transition
 
 The intended architecture is:
 
+```text
 Mock Verification
         ↓
 Official Organization / Government API
+```
 
 The OCR and information-extraction layers remain independent from the external API.
 
-📊 Verification Statuses
+---
 
+## 📊 Verification Statuses
+
+```text
 PENDING
 PROCESSING
 COMPLETED
@@ -263,45 +241,24 @@ VERIFIED
 NOT_VERIFIED
 VERIFICATION_ERROR
 FAILED
+```
 
-Status
+| Status | Meaning |
+|---|---|
+| `PENDING` | Processing has not started |
+| `PROCESSING` | OCR/document processing is running |
+| `COMPLETED` | OCR and extraction completed |
+| `VERIFYING` | Verification is running |
+| `VERIFIED` | Verification information matched |
+| `NOT_VERIFIED` | Verification failed or did not sufficiently match |
+| `VERIFICATION_ERROR` | Verification service/checker failed |
+| `FAILED` | Document processing/OCR failed |
 
-Meaning
+---
 
-PENDING
+## 📁 Project Structure
 
-Processing has not started
-
-PROCESSING
-
-OCR/document processing is running
-
-COMPLETED
-
-OCR and extraction completed
-
-VERIFYING
-
-Verification is running
-
-VERIFIED
-
-Verification information matched
-
-NOT_VERIFIED
-
-Verification failed or did not sufficiently match
-
-VERIFICATION_ERROR
-
-Verification service/checker failed
-
-FAILED
-
-Document processing/OCR failed
-
-📁 Project Structure
-
+```text
 DocVerify/
 │
 ├── acc/
@@ -366,85 +323,95 @@ DocVerify/
 ├── manage.py
 ├── requirements.txt
 └── README.md
+```
 
-🚀 Technologies Used
+---
 
-Backend
+## 🚀 Technologies Used
 
-Python 3.11+
+### Backend
 
-Django 5.2
+- Python 3.11+
+- Django 5.2
+- Django REST Framework
 
-Django REST Framework
+### Database
 
-Database
+- PostgreSQL
 
-PostgreSQL
+### OCR & Document Processing
 
-OCR & Document Processing
+- PaddleOCR
+- PyMuPDF
+- PDF rendering
+- Image processing
 
-PaddleOCR
+### Frontend
 
-PyMuPDF
+- HTML
+- CSS
+- Bootstrap
+- Django Templates
+- JavaScript
 
-PDF rendering
+### Authentication
 
-Image processing
+- Django Authentication
+- Session-based authentication
 
-Frontend
+---
 
-HTML
+## 🚀 Installation
 
-CSS
+### Clone Repository
 
-Bootstrap
-
-Django Templates
-
-JavaScript
-
-Authentication
-
-Django Authentication
-
-Session-based authentication
-
-🚀 Installation
-
-Clone Repository
-
+```bash
 git clone https://github.com/YOUR_USERNAME/DocVerify-AI-Document-OCR-Verification-System.git
 
 cd DocVerify-AI-Document-OCR-Verification-System
+```
 
-Create Virtual Environment
+### Create Virtual Environment
 
 Linux:
 
+```bash
 python3 -m venv .venv
 source .venv/bin/activate
+```
 
 Windows:
 
+```bash
 python -m venv .venv
 .venv\Scripts\activate
+```
 
-Install Dependencies
+### Install Dependencies
 
+```bash
 pip install -r requirements.txt
+```
 
-⚙️ PostgreSQL Configuration
+---
+
+## ⚙️ PostgreSQL Configuration
 
 Create a PostgreSQL database:
 
+```sql
 CREATE DATABASE docverify;
+```
 
 Configure the database in:
 
+```text
 Doc_checker/settings.py
+```
 
 Example:
 
+```python
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -455,34 +422,52 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+```
 
 For production, use environment variables or a secure secret-management system.
 
-🗄️ Database Migration
+---
 
+## 🗄️ Database Migration
+
+```bash
 python manage.py makemigrations
 python manage.py migrate
+```
 
 Create an admin account:
 
+```bash
 python manage.py createsuperuser
+```
 
-▶️ Run Application
+---
 
+## ▶️ Run Application
+
+```bash
 python manage.py runserver
+```
 
 Open:
 
+```text
 http://127.0.0.1:8000/
+```
 
-🧪 Test Verification
+---
+
+## 🧪 Test Verification
 
 Start Django shell:
 
+```bash
 python manage.py shell
+```
 
 Create a mock PAN verification record:
 
+```python
 from doc.models import MockVerificationRecord
 
 MockVerificationRecord.objects.create(
@@ -494,13 +479,17 @@ MockVerificationRecord.objects.create(
         "dob": "03/02/2004"
     }
 )
+```
 
 Exit:
 
+```python
 exit()
+```
 
 Then:
 
+```text
 Dashboard
     ↓
 Upload PAN
@@ -516,11 +505,17 @@ Mock Verification Database
 Comparison
     ↓
 VERIFIED / NOT_VERIFIED
+```
 
-🔎 Test OCR and Information Extraction
+---
 
+## 🔎 Test OCR and Information Extraction
+
+```bash
 python manage.py shell
+```
 
+```python
 from doc.services.extractor import extract_document
 from doc.services.information_extractor import extract_information
 
@@ -534,76 +529,71 @@ data = extract_information(
 )
 
 print(data)
+```
 
 Expected structure:
 
+```json
 {
     "document_type": "pan",
     "pan_number": "QFVPS0764H",
     "name": "SAMAD",
     "dob": "03/02/2004"
 }
+```
 
-🔌 REST API
+---
+
+## 🔌 REST API
 
 The project includes Django REST Framework endpoints for:
 
-Document upload
-
-Document listing
-
-Document details
-
-Document deletion
-
-Document search
-
-Dashboard statistics
+- Document upload
+- Document listing
+- Document details
+- Document deletion
+- Document search
+- Dashboard statistics
 
 Protected endpoints require authentication.
 
-🗂️ Document History
+---
+
+## 🗂️ Document History
 
 The History section provides:
 
-Uploaded document list
+- Uploaded document list
+- Search
+- Document type
+- Processing status
+- View document
+- Download document
+- Delete document
+- Change document type
+- Verify document
 
-Search
+---
 
-Document type
-
-Processing status
-
-View document
-
-Download document
-
-Delete document
-
-Change document type
-
-Verify document
-
-👤 User Account
+## 👤 User Account
 
 The account system provides:
 
-Registration
+- Registration
+- Login
+- Logout
+- Profile view/edit
+- Password management
 
-Login
+---
 
-Logout
-
-Profile view/edit
-
-Password management
-
-🔐 Security
+## 🔐 Security
 
 Document verification can involve sensitive identity information.
 
 The intended production architecture is:
 
+```text
 Authenticated User
         ↓
 Dashboard
@@ -619,101 +609,107 @@ Secure Verification API
 Comparison
         ↓
 Safe Verification Result
+```
 
 API credentials must never be committed to GitHub.
 
 Use environment variables or secure application settings for:
 
+```text
 API_KEY
 API_SECRET
 CLIENT_ID
 CLIENT_SECRET
+```
 
 The planned settings section can also protect sensitive API configuration with additional authentication such as 2FA.
 
-⚠️ Current Development Limitation
+---
 
-The current verification system uses a local mock verification database.
+## ⚠️ Current Development Limitation
 
-It does not represent a real government or organization verification service.
+The current verification system uses a **local mock verification database**.
+
+It does **not** represent a real government or organization verification service.
 
 Real verification APIs should only be integrated after obtaining the required authorization, documentation, credentials, and permitted use.
 
 When an official API becomes available, the intended change is primarily inside the document-specific checker layer:
 
+```text
 checker/
 ├── aadhaar.py
 ├── pan.py
 ├── passport.py
 ├── driving_license.py
 └── ...
+```
 
 The OCR and information-extraction architecture can remain independent from the external API.
 
-🔮 Future Enhancements
+---
 
-Official document verification API integration
+## 🔮 Future Enhancements
 
-Secure API credential management
+- Official document verification API integration
+- Secure API credential management
+- Two-factor authentication for API settings
+- Document-specific API request builders
+- Strong primary-identifier verification
+- Improved field normalization
+- OCR error correction
+- QR-code/document metadata verification
+- Verification audit logs
+- API rate limiting
+- Background processing with Celery/Redis
+- Encryption for sensitive stored data
+- Role-based organization access
+- Multi-organization verification
+- Docker deployment
+- Cloud deployment
 
-Two-factor authentication for API settings
+---
 
-Document-specific API request builders
-
-Strong primary-identifier verification
-
-Improved field normalization
-
-OCR error correction
-
-QR-code/document metadata verification
-
-Verification audit logs
-
-API rate limiting
-
-Background processing with Celery/Redis
-
-Encryption for sensitive stored data
-
-Role-based organization access
-
-Multi-organization verification
-
-Docker deployment
-
-Cloud deployment
-
-🤝 Contributing
+## 🤝 Contributing
 
 Contributions are welcome.
 
+```bash
 git checkout -b feature/your-feature
+```
 
+```bash
 git add .
 git commit -m "Add your feature"
 git push origin feature/your-feature
+```
 
 Then open a Pull Request.
 
-📜 License
+---
+
+## 📜 License
 
 Distributed under the MIT License.
 
-👨‍💻 Author
+---
 
-Rutik Avhad
+## 👨‍💻 Author
+
+**Rutik Avhad**
 
 Python Developer | Cybersecurity Enthusiast | AI Application Developer
 
+---
+
 <div align="center">
 
-⭐ Star the Project
+## ⭐ Star the Project
 
-If you find DocVerify useful, consider giving the repository a ⭐.
+If you find **DocVerify** useful, consider giving the repository a ⭐.
 
 Built with ❤️ using
 
-Python • Django • PostgreSQL • PaddleOCR • PyMuPDF • Bootstrap
+**Python • Django • PostgreSQL • PaddleOCR • PyMuPDF • Bootstrap**
 
 </div>
