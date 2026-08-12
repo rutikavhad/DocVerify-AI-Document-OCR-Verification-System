@@ -1,7 +1,7 @@
 
 
 <div align="center">
-<h1>📄 DocVerify — AI Document OCR & Verification System </h1>h1>
+<h1>📄 DocVerify — AI Document OCR & Verification System </h1>
 
 Secure Document OCR, Information Extraction & Verification Platform
 
